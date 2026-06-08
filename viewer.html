@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Responsive Viewer</title>
+    <link rel="stylesheet" href="viewer.css" />
+  </head>
+  <body>
+    <header class="toolbar">
+      <form id="urlForm" class="url-wrap">
+        <input
+          id="url"
+          type="text"
+          placeholder="example.com"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button type="submit" title="Load">Go</button>
+      </form>
+
+      <div class="controls">
+        <select id="device" title="Device"></select>
+
+        <div id="customDims" class="custom hidden">
+          <input id="customW" type="number" min="100" max="4000" />
+          <span>×</span>
+          <input id="customH" type="number" min="100" max="4000" />
+        </div>
+
+        <button id="rotate" title="Rotate" class="icon">⟲</button>
+
+        <select id="zoom" title="Zoom">
+          <option value="fit">Fit screen</option>
+          <option value="2">200%</option>
+          <option value="1.5">150%</option>
+          <option value="1">100%</option>
+          <option value="0.75">75%</option>
+          <option value="0.5">50%</option>
+        </select>
+
+        <button id="reload" title="Reload frame" class="icon">↻</button>
+
+        <span id="dimsLabel" class="dims"></span>
+        <span id="ver" class="dims" style="min-width:auto;opacity:.5">v0.5</span>
+      </div>
+    </header>
+
+    <main id="stage" class="stage">
+      <div id="deviceSlot" class="device-slot">
+        <div id="deviceScaler" class="device">
+          <div id="bezel" class="bezel" data-frame="none">
+            <span class="cam"></span>
+            <iframe id="frame" title="preview" allow="fullscreen"></iframe>
+            <span class="home"></span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="devices.js"></script>
+    <script src="viewer.js"></script>
+  </body>
+</html>
