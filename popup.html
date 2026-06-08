@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="bar">
+    <span class="dot" id="statusDot"></span>
+    <strong>Responsive Viewer</strong>
+    <span class="ver">v0.6.1</span>
+  </header>
+
+  <div class="search">
+    <input id="search" type="text" placeholder="Search 168 devices — iPhone, fold, pixel…" autocomplete="off" spellcheck="false" />
+  </div>
+
+  <div id="list" class="list"></div>
+
+  <div id="notice" class="notice hidden"></div>
+
+  <footer class="controls">
+    <div class="row">
+      <button id="rotate" class="btn" title="Rotate">⟲ Rotate</button>
+      <select id="zoom" class="sel" title="Zoom">
+        <option value="fit">Fit</option>
+        <option value="2">200%</option>
+        <option value="1.5">150%</option>
+        <option value="1">100%</option>
+        <option value="0.75">75%</option>
+        <option value="0.5">50%</option>
+      </select>
+    </div>
+    <button id="deactivate" class="btn danger hidden">✕ Return to normal</button>
+  </footer>
+
+  <script src="devices.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+:root {
+  --bg: #0e0f12;
+  --panel: #17191e;
+  --line: #262a31;
+  --text: #e7e9ee;
+  --muted: #8b909b;
+  --accent: #5b8cff;
+  --body: #0a0a0c;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.4 -apple-system, system-ui, "Segoe UI", sans-serif;
+}
+
+body { display: flex; flex-direction: column; }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.url-wrap { display: flex; flex: 1 1 320px; min-width: 240px; }
+
+#url {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  background: #0b0c0f;
+  color: var(--text);
+  outline: none;
+}
+#url:focus { border-color: var(--accent); }
+
+.url-wrap button {
+  padding: 8px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+select, .controls button, .custom input {
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0b0c0f;
+  color: var(--text);
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.controls button.icon { width: 36px; padding: 0; font-size: 16px; }
+.controls button.icon:hover, select:hover { border-color: var(--accent); }
+
+.custom { display: flex; align-items: center; gap: 4px; color: var(--muted); }
+.custom input { width: 68px; text-align: center; cursor: text; }
+
+.dims { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 110px; }
+
+.hidden { display: none !important; }
+
+.stage {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 28px;
+  /* pastel-blue blueprint: soft blue paper + fine (24px) and bold (120px) grid */
+  background-color: #e8f1fb;
+  background-image:
+    linear-gradient(#cdddf2 1px, transparent 1px),
+    linear-gradient(90deg, #cdddf2 1px, transparent 1px),
+    linear-gradient(#aecae9 1px, transparent 1px),
+    linear-gradient(90deg, #aecae9 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+  background-position: -1px -1px;
+}
+
+/* slot reserves the scaled footprint; device scales inside it.
+   width:max-content keeps .device sized to the bezel's CONTENT, so re-measuring
+   offsetWidth never picks up the slot's (inflated, scaled) explicit width. */
+.device-slot { flex: none; }
+.device { transform-origin: top left; will-change: transform; width: max-content; }
+
+#frame {
+  border: 0;
+  display: block;
+  background: #fff;
+}
+
+/* ---- device frames ---------------------------------------------------- */
+
+.bezel { position: relative; background: var(--body); }
+.bezel .cam, .bezel .home { display: none; position: absolute; z-index: 2; }
+
+/* desktop / laptop: bare screen, just a soft shadow */
+.bezel[data-frame="none"] {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+}
+
+/* Geometry below is lifted from picturepan2/devices.css v0.2.0 (MIT) — its
+   measured iPhone X notch (204x30, 20px bottom-radius on a 375 screen) and
+   iPhone 8 home-button proportions — adapted to modern logical sizes. The
+   Dynamic Island uses the commonly-cited 125x37pt ~11pt below the screen top
+   (Apple has not published an official figure). Buttons use % of device
+   height so they sit correctly across screen sizes.
+   src: github.com/picturepan2/devices.css/blob/master/dist/devices.css */
+
+/* shared phone body shadow + thin metallic rim; each frame sets padding + radius */
+.bezel[data-frame^="ios"],
+.bezel[data-frame^="android"] {
+  box-shadow:
+    inset 0 0 0 2px #303338,
+    0 0 0 1.5px #6a6e75,
+    0 22px 55px rgba(30, 55, 95, 0.32);
+}
+
+/* --- notch (iPhone 12 / 13 / 14) --- */
+.bezel[data-frame="ios-notch"] { padding: 14px; border-radius: 50px; }
+.bezel[data-frame="ios-notch"] #frame { border-radius: 38px; }
+.bezel[data-frame="ios-notch"] .cam {
+  display: block;
+  top: 14px; left: 50%; transform: translateX(-50%);
+  width: 160px; height: 30px; background: var(--body);
+  border-radius: 0 0 20px 20px;
+}
+/* concave flares where the notch meets the screen-top corners */
+.bezel[data-frame="ios-notch"] .cam::before,
+.bezel[data-frame="ios-notch"] .cam::after {
+  content: ""; position: absolute; top: 0; width: 10px; height: 10px;
+}
+.bezel[data-frame="ios-notch"] .cam::before {
+  left: -10px;
+  background: radial-gradient(circle at bottom left, transparent 0, transparent 75%, var(--body) 75%);
+}
+.bezel[data-frame="ios-notch"] .cam::after {
+  right: -10px;
+  background: radial-gradient(circle at bottom right, transparent 0, transparent 75%, var(--body) 75%);
+}
+
+/* --- Dynamic Island (iPhone 15 Pro / Pro Max) --- */
+.bezel[data-frame="ios-island"] { padding: 14px; border-radius: 52px; }
+.bezel[data-frame="ios-island"] #frame { border-radius: 40px; }
+.bezel[data-frame="ios-island"] .cam {
+  display: block;
+  top: 25px; left: 50%; transform: translateX(-50%);
+  width: 125px; height: 37px; background: #000; border-radius: 19px;
+}
+
+/* --- iPhone SE: thick top/bottom bezel + home button --- */
+.bezel[data-frame="ios-home"] { padding: 90px 16px; border-radius: 52px; }
+.bezel[data-frame="ios-home"] #frame { border-radius: 3px; }
+.bezel[data-frame="ios-home"] .cam { /* earpiece slot */
+  display: block;
+  top: 44px; left: 50%; transform: translateX(-50%);
+  width: 56px; height: 6px; background: #1b1b20; border-radius: 3px;
+}
+.bezel[data-frame="ios-home"] .home {
+  display: block;
+  bottom: 24px; left: 50%; transform: translateX(-50%);
+  width: 50px; height: 50px; border: 2px solid #2c2c31;
+  border-radius: 50%; background: #0c0c0e;
+}
+
+/* --- Android body (Pixel / Galaxy / etc) --- */
+.bezel[data-frame^="android"] { padding: 13px; border-radius: 40px; }
+.bezel[data-frame^="android"] #frame { border-radius: 26px; }
+/* centered hole-punch (default android) */
+.bezel[data-frame="android"] .cam {
+  display: block;
+  top: 21px; left: 50%; transform: translateX(-50%);
+  width: 11px; height: 11px; background: #000; border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4);
+}
+/* left hole-punch (older OnePlus, Pixel 4a/5, Zenfone) */
+.bezel[data-frame="android-left"] .cam {
+  display: block;
+  top: 21px; left: 30px;
+  width: 11px; height: 11px; background: #000; border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4);
+}
+/* android-plain (ROG / no cutout): .cam stays hidden by the base rule */
+
+/* gesture home indicator (notch + island + android) — sits in the bottom bezel */
+.bezel[data-frame="ios-notch"] .home,
+.bezel[data-frame="ios-island"] .home,
+.bezel[data-frame^="android"] .home {
+  display: block;
+  bottom: 6px; left: 50%; transform: translateX(-50%);
+  width: 34%; max-width: 140px; height: 5px;
+  background: #000; opacity: 0.5; border-radius: 3px;
+}
+
+/* side buttons — iOS: volume rocker left, power right */
+.bezel[data-frame^="ios"]::before,
+.bezel[data-frame^="ios"]::after {
+  content: ""; position: absolute; width: 3px; background: #1a1c1f; z-index: 1;
+}
+.bezel[data-frame^="ios"]::before { left: -3px; top: 16%; height: 11%; border-radius: 2px 0 0 2px; }
+.bezel[data-frame^="ios"]::after { right: -3px; top: 25%; height: 8%; border-radius: 0 2px 2px 0; }
+
+/* side buttons — Android: volume + power both on the right */
+.bezel[data-frame^="android"]::before,
+.bezel[data-frame^="android"]::after {
+  content: ""; position: absolute; right: -3px; width: 3px; background: #1a1c1f;
+  border-radius: 0 2px 2px 0; z-index: 1;
+}
+.bezel[data-frame^="android"]::before { top: 16%; height: 7%; }
+.bezel[data-frame^="android"]::after { top: 25%; height: 10%; }
+
+/* --- tablets: uniform bezel + camera dot + top-edge power button --- */
+.bezel[data-frame="tablet"] {
+  padding: 42px;
+  border-radius: 30px;
+  box-shadow:
+    inset 0 0 0 2px #303338,
+    0 0 0 1.5px #6a6e75,
+    0 22px 55px rgba(30, 55, 95, 0.32);
+}
+.bezel[data-frame="tablet"] #frame { border-radius: 6px; }
+.bezel[data-frame="tablet"] .cam {
+  display: block;
+  top: 18px; left: 50%; transform: translateX(-50%);
+  width: 7px; height: 7px; background: #1b1b20; border-radius: 50%;
+}
+.bezel[data-frame="tablet"]::after {
+  content: ""; position: absolute; right: 60px; top: -3px;
+  width: 40px; height: 3px; background: #1a1c1f; border-radius: 2px 2px 0 0;
+}
