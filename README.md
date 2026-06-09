@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=".github/logo.svg" width="96" height="96" alt="responsive-viewer logo" />
+</p>
+
 # Responsive Viewer (Unlocked)
 
 A local Brave/Chrome extension that previews the page you're on at any device
