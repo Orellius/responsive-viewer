@@ -2,7 +2,9 @@
   <img src=".github/logo.svg" width="96" height="96" alt="responsive-viewer logo" />
 </p>
 
-# Responsive Viewer (Unlocked)
+# Responsive Viewer
+
+> A free, open, from-scratch MV3 extension. An original reimplementation of what paid mobile-simulator extensions do, not a repack or patch of any existing product.
 
 A local Brave/Chrome extension that previews the page you're on at any device
 resolution — **in place**, no separate tab. Click the toolbar icon → a popup with
@@ -11,7 +13,7 @@ a searchable picker (168 devices) → the device frame overlays the current page
 
 ## What it actually does
 
-The "value" paid mobile-simulator extensions charge for is two things:
+Paid mobile-simulator extensions are built around two things, both simple to do yourself:
 
 1. A list of device width×height presets (`devices.js` — edit it freely).
 2. Stripping the headers that stop a site from loading in an `<iframe>`
@@ -42,7 +44,7 @@ carries the `__rvsim__` marker, so your normal browsing is untouched.
 1. Open `brave://extensions` (or `chrome://extensions`).
 2. Toggle **Developer mode** on (top right).
 3. Click **Load unpacked** → select this folder
-   (`/Users/orelohayon/Desktop/Projects/responsive-viewer`).
+   (the `responsive-viewer` folder).
 4. Browse to any normal site, click the extension's toolbar icon → the **popup**
    opens.
 5. Search/scroll the device list and click a device → the frame overlays the page
@@ -97,5 +99,5 @@ content-script now, so just reopen the popup — no tab to refresh).
   incl. Z Fold/Flip in both folded + unfolded states, Google, OnePlus, Nothing,
   Xiaomi/Redmi/Poco, Motorola incl. razr, Oppo, Vivo, Honor, Asus), each with
   viewport + dpr + cutout, grouped by brand. Accuracy tiers documented in the file
-  header. **This is the part you were paying for.**
+  header. **This is the core of the tool.**
 - `viewer.html` / `viewer.css` / `viewer.js` — the toolbar + device frame UI.
