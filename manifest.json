@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Responsive Viewer (Unlocked)",
+  "name": "Responsive Viewer",
   "version": "0.6.1",
   "description": "Preview the page you're on at any device resolution, in place. Searchable picker from the toolbar popup. Every preset free, plus custom W x H.",
   "permissions": ["declarativeNetRequestWithHostAccess", "storage", "activeTab", "scripting"],
